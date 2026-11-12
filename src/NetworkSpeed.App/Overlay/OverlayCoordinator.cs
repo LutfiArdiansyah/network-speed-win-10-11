@@ -33,6 +33,7 @@ public sealed class OverlayCoordinator : IDisposable
     private readonly Dictionary<string, Placement> _placements = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, (int Width, int Height)> _sizes = new(StringComparer.OrdinalIgnoreCase);
     private readonly HashSet<string> _visible = new(StringComparer.OrdinalIgnoreCase);
+    private readonly HashSet<string> _toolTipOpen = new(StringComparer.OrdinalIgnoreCase);
     private readonly TaskbarForegroundWatcher _foreground = new();
 
     private IReadOnlyList<TaskbarLayout> _layouts = [];
@@ -91,6 +92,15 @@ public sealed class OverlayCoordinator : IDisposable
         _pollTimer.Start();
         StartRecalc();
     }
+
+    /// <summary>
+    /// Tooltip salah satu overlay akan tampil. Penerima boleh memanggil <see cref="SetToolTip"/> di sini untuk mengisi
+    /// data yang hanya dibaca saat tooltip terlihat (SSID).
+    /// </summary>
+    public event Action? ToolTipOpening;
+
+    /// <summary>Ada tooltip overlay yang sedang terbuka.</summary>
+    public bool IsToolTipOpen => _toolTipOpen.Count > 0;
 
     /// <summary>Tooltip semua overlay (spec F-06).</summary>
     public void SetToolTip(string text)
@@ -193,6 +203,7 @@ public sealed class OverlayCoordinator : IDisposable
             _windows[stale].Close();
             _windows.Remove(stale);
             _placements.Remove(stale);
+            _toolTipOpen.Remove(stale);
         }
 
         foreach (var layout in selected)
@@ -205,6 +216,13 @@ public sealed class OverlayCoordinator : IDisposable
             var window = new OverlayWindow { MonitorId = layout.MonitorId };
             window.ShellMessage += OnShellMessage;
             window.ContextMenuRequested += () => ContextMenuRequested?.Invoke();
+            var monitorId = layout.MonitorId;
+            window.ToolTipOpening += (_, _) =>
+            {
+                _toolTipOpen.Add(monitorId);
+                ToolTipOpening?.Invoke();
+            };
+            window.ToolTipClosing += (_, _) => _toolTipOpen.Remove(monitorId);
             window.Show();
 
             // Pindahkan (masih tersembunyi) ke monitor tujuan sebelum diukur, agar DPI-nya sudah DPI monitor itu.

@@ -132,6 +132,10 @@ public partial class App : Application
         };
         _host.ReadingUpdated += UpdateToolTips;
 
+        // SSID baru dibaca saat tooltip akan tampil (bukan tiap 30 detik di background) agar icon lokasi Windows
+        // tidak terus muncul; isi tooltip diperbarui sebelum tampil.
+        overlay.ToolTipOpening += () => UpdateToolTips(_host.LastReading);
+
         _host.Start();
         _overlay.Start();
         _latency.Start();
@@ -214,7 +218,7 @@ public partial class App : Application
         }
 
         var adapter = reading is { SelectedAdapters.Count: > 0 } ? reading.SelectedAdapters[0] : null;
-        var (ssid, ipv4) = adapter is null ? (null, null) : _details.Get(adapter);
+        var (ssid, ipv4) = adapter is null ? (null, null) : _details.Get(adapter, includeSsid: _overlay.IsToolTipOpen);
         var name = reading is { SelectedAdapters.Count: > 1 } ? string.Join(", ", reading.SelectedAdapters.Select(a => a.Name)) : adapter?.Name;
         var data = new TooltipData(name, ssid, ipv4, reading?.SessionSentBytes ?? 0, reading?.SessionReceivedBytes ?? 0, _latency?.Latest, _overlay.HiddenReason);
         var quota = _quota?.Summary;

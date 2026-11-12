@@ -90,7 +90,7 @@ Dipakai **internal kantor dulu** (distribusi manual), dengan kemungkinan **rilis
 | F-03 | Interval refresh 0,5–5 detik, default 1 detik. |
 | F-04 | Pilihan adapter: **Auto** (default: adapter yang Up dan punya default gateway), **All** (jumlah semua adapter fisik + VPN yang tidak dikecualikan), atau adapter tertentu (disimpan berdasarkan `InterfaceGuid`, bukan nama). |
 | F-05 | Adapter yang dikecualikan secara default: loopback, Hyper-V/WSL virtual switch, adapter filter/miniport tanpa trafik nyata. **VPN**: [ASSUMPTION] dalam mode All, adapter VPN **dikecualikan** secara default karena trafiknya sudah terhitung di adapter fisik; bisa diaktifkan manual. |
-| F-06 | Tooltip: nama adapter, SSID (kalau Wi-Fi), IPv4 lokal, total ↑/↓ sesi ini, latency (kalau X-01 aktif). |
+| F-06 | Tooltip: nama adapter, SSID (kalau Wi-Fi), IPv4 lokal, total ↑/↓ sesi ini, latency (kalau X-01 aktif). SSID hanya dibaca saat tooltip dibuka: sejak Windows 11 24H2 membaca SSID dihitung akses lokasi (icon lokasi muncul); bila izin lokasi ditolak, baris SSID tidak tampil. |
 | F-08 | Menu tray & klik kanan overlay: Settings, Show/Hide, History, Per-app usage, Check for updates, Exit. |
 
 ### 4.2 Posisi overlay (F-07)
