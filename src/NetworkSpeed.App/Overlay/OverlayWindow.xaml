@@ -1,0 +1,21 @@
+<Window x:Class="NetworkSpeed.App.Overlay.OverlayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Network Speed overlay"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        ShowActivated="False"
+        Focusable="False"
+        Topmost="True"
+        SizeToContent="WidthAndHeight"
+        Left="-32000"
+        Top="-32000"
+        UseLayoutRounding="True"
+        AutomationProperties.Name="Network speed">
+    <Border x:Name="Root" Padding="6,1" Background="#01000000">
+        <StackPanel x:Name="Lines" VerticalAlignment="Center" />
+    </Border>
+</Window>

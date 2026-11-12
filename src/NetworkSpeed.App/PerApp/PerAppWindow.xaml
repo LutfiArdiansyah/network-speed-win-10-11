@@ -1,0 +1,27 @@
+<Window x:Class="NetworkSpeed.App.PerApp.PerAppWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Network Speed – Per-app usage"
+        Width="520" Height="420" MinWidth="360" MinHeight="240"
+        WindowStartupLocation="CenterScreen">
+    <DockPanel Margin="12">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+            <RadioButton x:Name="SessionRadio" Content="Since service start" GroupName="Period" IsChecked="True" Margin="0,0,16,0" Checked="OnPeriodChanged" />
+            <RadioButton x:Name="TodayRadio" Content="Today" GroupName="Period" Checked="OnPeriodChanged" />
+        </StackPanel>
+        <TextBlock DockPanel.Dock="Bottom" Margin="0,8,0,0" TextWrapping="Wrap"
+                   Foreground="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"
+                   Text="Values are approximate and scaled to the adapter total. &quot;System&quot; includes Windows services and other users." />
+        <TextBlock x:Name="StatusText" DockPanel.Dock="Bottom" TextWrapping="Wrap" />
+        <ListView x:Name="Rows" AutomationProperties.Name="Per-app network usage">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="App" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Upload" Width="90" DisplayMemberBinding="{Binding Sent}" />
+                    <GridViewColumn Header="Download" Width="90" DisplayMemberBinding="{Binding Received}" />
+                    <GridViewColumn Header="Total" Width="90" DisplayMemberBinding="{Binding Total}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>

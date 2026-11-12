@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <!-- Hanya untuk NotifyIcon (tray); tanpa paket tambahan. -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <AssemblyName>NetworkSpeed.App</AssemblyName>
+    <RootNamespace>NetworkSpeed.App</RootNamespace>
+    <!-- WFO0003: ini aplikasi WPF; DPI PerMonitorV2 diatur lewat app.manifest (cara WPF), bukan API WinForms. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <!-- Memori (target UI < 80 MB, spec §1): GC non-concurrent tanpa thread latar, dan heap yang lebih hemat. -->
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Hindari bentrok nama tipe WPF vs WinForms (Application, Brush, Color, dll.). -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NetworkSpeed.Interop\NetworkSpeed.Interop.csproj" />
+  </ItemGroup>
+</Project>

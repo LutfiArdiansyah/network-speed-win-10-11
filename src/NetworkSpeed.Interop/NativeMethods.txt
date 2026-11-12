@@ -1,0 +1,4 @@
+GetIfTable2
+FreeMibTable
+MIB_IF_TABLE2
+MIB_IF_ROW2

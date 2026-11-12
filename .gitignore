@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+TestResults/
+# Private key code signing tidak boleh masuk repo (spec §9).
+*.pfx
+*.snk
+.superpowers/
+
+# Output build rilis (Plan 5).
+artifacts/
